@@ -3,12 +3,10 @@
   stat: path={{ jdk.rpm_path }}
   register: java_exists
 
-- name: wget java
-  command: >
-    wget -O {{ jdk.rpm_path }} --no-check-certificate --no-cookies
-    --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "{{ jdk.dl_url }}"
-  when: java_exists.stat.md5 is not defined
-
+- name: copy java
+  copy :
+    src: "{{ jdk.rpm_name }}"
+    dest: "{{ jdk.rpm_path }}"
 - name: install java from local rpm
   yum: name={{ jdk.rpm_path }}
 
